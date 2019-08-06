@@ -6,10 +6,12 @@ package com.robot.chat.dto;
  * @version 2019/8/6
  */
 public class Nlu {
+    public static String MUSIC = "music";
+    public static String CHET = "chet";
     /**
      * 域
      */
-    private String domain;
+    private String domain = Nlu.CHET;
     /**
      * 意图
      */
@@ -17,7 +19,7 @@ public class Nlu {
     /**
      * 词槽
      */
-    private ChetNluSlots chetNluSlots;
+    private Slots[] chetNluSlots;
 
     public String getDomain() {
         return domain;
@@ -35,11 +37,11 @@ public class Nlu {
         this.intent = intent;
     }
 
-    public ChetNluSlots getChetNluSlots() {
+    public Slots[] getChetNluSlots() {
         return chetNluSlots;
     }
 
-    public void setChetNluSlots(ChetNluSlots chetNluSlots) {
+    public void setChetNluSlots(Slots[] chetNluSlots) {
         this.chetNluSlots = chetNluSlots;
     }
 }

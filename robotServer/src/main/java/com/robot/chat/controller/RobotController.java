@@ -1,5 +1,6 @@
 package com.robot.chat.controller;
 
+import com.robot.chat.dto.ChetResponse;
 import com.robot.chat.service.RobotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +22,8 @@ public class RobotController {
     }
 
     @PostMapping()
-    public String chat(@RequestParam String query) {
+    public ChetResponse chat(@RequestParam String query) {
         System.out.println(query);
-        robotService.getResponse(query);
-        return query;
+        return robotService.getResponse(query);
     }
 }

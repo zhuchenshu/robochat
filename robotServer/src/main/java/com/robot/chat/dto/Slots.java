@@ -5,7 +5,7 @@ package com.robot.chat.dto;
  * @author chenshu.zhu
  * @version 2019/8/6
  */
-public class ChetNluSlots {
+public class Slots {
     /**
      * 词槽名称
      */
