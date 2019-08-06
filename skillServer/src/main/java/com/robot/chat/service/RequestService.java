@@ -1,4 +1,5 @@
 package com.robot.chat.service;
 
-public class RequestService {
+public interface RequestService {
+    void getResponse(String singer,String songName);
 }

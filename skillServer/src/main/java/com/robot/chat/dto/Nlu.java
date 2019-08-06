@@ -46,4 +46,8 @@ public class Nlu {
     public void setSlots(List<Slot> slots) {
         this.slots = slots;
     }
+
+    public Slot getSlotById(int id){
+        return this.slots.get(id);
+    }
 }
