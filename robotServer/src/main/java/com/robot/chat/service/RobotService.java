@@ -1,6 +1,6 @@
 package com.robot.chat.service;
 
-import com.robot.chat.dto.ChetResponse;
+import com.robot.chat.dto.ChatResponse;
 
 /**
  * @Description 机器人服务接口
@@ -8,5 +8,5 @@ import com.robot.chat.dto.ChetResponse;
  * @version 2019/8/6
  */
 public interface RobotService {
-    ChetResponse getResponse(String query);
+    ChatResponse getResponse(String query);
 }

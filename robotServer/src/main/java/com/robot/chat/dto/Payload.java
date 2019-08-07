@@ -1,5 +1,7 @@
 package com.robot.chat.dto;
 
+import com.robot.chat.dto.dtoSkill.SkillMusic;
+
 /**
  * @Description 聊天回复 信息
  * @author chenshu.zhu
@@ -13,7 +15,7 @@ public class Payload {
     /**
      * 音乐
      */
-    private Music music;
+    private SkillMusic music;
 
     public String getText() {
         return text;
@@ -23,11 +25,11 @@ public class Payload {
         this.text = text;
     }
 
-    public Music getMusic() {
+    public SkillMusic getMusic() {
         return music;
     }
 
-    public void setMusic(Music music) {
+    public void setMusic(SkillMusic music) {
         this.music = music;
     }
 }

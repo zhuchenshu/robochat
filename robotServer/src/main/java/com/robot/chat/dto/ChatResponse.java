@@ -5,7 +5,7 @@ package com.robot.chat.dto;
  * @author chenshu.zhu
  * @version 2019/8/6
  */
-public class ChetResponse {
+public class ChatResponse {
     /**
      * 头信息
      */

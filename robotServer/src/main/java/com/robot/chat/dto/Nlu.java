@@ -19,7 +19,7 @@ public class Nlu {
     /**
      * 词槽
      */
-    private Slots[] chetNluSlots;
+    private Slots[] slots;
 
     public String getDomain() {
         return domain;
@@ -37,11 +37,11 @@ public class Nlu {
         this.intent = intent;
     }
 
-    public Slots[] getChetNluSlots() {
-        return chetNluSlots;
+    public Slots[] getSlots() {
+        return slots;
     }
 
-    public void setChetNluSlots(Slots[] chetNluSlots) {
-        this.chetNluSlots = chetNluSlots;
+    public void setSlots(Slots[] slots) {
+        this.slots = slots;
     }
 }

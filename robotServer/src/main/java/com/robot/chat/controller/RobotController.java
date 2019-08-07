@@ -1,6 +1,6 @@
 package com.robot.chat.controller;
 
-import com.robot.chat.dto.ChetResponse;
+import com.robot.chat.dto.ChatResponse;
 import com.robot.chat.service.RobotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
  * @author chenshu.zhu
  * @version 2019/8/6
  */
-@RequestMapping("test")
+@RequestMapping("chat")
 @RestController
 public class RobotController {
     @Autowired
@@ -21,9 +21,25 @@ public class RobotController {
         return "hello world";
     }
 
+    /**
+     * 请求机器人聊天接口
+     * @param query 聊天内容
+     * @return 返回信息
+     */
     @PostMapping()
-    public ChetResponse chat(@RequestParam String query) {
-        System.out.println(query);
-        return robotService.getResponse(query);
+    public ChatResponse chat(@RequestBody Query query) {
+        return robotService.getResponse(query.getQuery());
+    }
+}
+
+class Query {
+    private String query;
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
     }
 }
