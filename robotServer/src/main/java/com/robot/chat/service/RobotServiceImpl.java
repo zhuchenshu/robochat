@@ -45,7 +45,7 @@ public class RobotServiceImpl implements RobotService {
                 responseEntity = restTemplate.postForEntity("http://192.168.43.80:8080/music", skillPostBody, SkillMusic.class);
             } catch (Exception e) {
                 header.setCode(1);
-                header.setMessage("音乐接口正忙，请稍后再试");
+                header.setMessage("音乐正忙，请稍后再试");
             }
             if (responseEntity.getBody().getCode().equals(200)) {
                 chetResponse.setHeader(header);
@@ -63,7 +63,7 @@ public class RobotServiceImpl implements RobotService {
                 responseChetEntity = restTemplate.getForEntity("https://api.tianapi.com/txapi/robot/?key=9d45fb6c42449577890a9606f1cb2168&question=" + query, ChetBack.class);
             } catch (Exception e) {
                 header.setCode(3);
-                header.setMessage("闲聊接口正忙，请稍后再试");
+                header.setMessage("闲聊正忙，请稍后再试");
             }
             if (responseChetEntity.getBody().getCode().equals(200)) {
                 header.setSkillId(0);
