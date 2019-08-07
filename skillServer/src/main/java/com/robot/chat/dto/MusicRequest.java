@@ -1,5 +1,8 @@
 package com.robot.chat.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @Description 音乐请求类，记录机器人server发送的json
@@ -38,19 +41,34 @@ public class MusicRequest {
      * @param
      * @return String[0]歌手名，String[1]歌名
      */
+
     public String[] getSlot(){
         String[] info = new String[2];
-        if((this.nlu.slots.get(0).getName()).equals("Person")){
-            info[0] = this.nlu.slots.get(0).getValue();
-            info[1] = this.nlu.slots.get(1).getValue();
-            return info;
+        //人名、歌名都有
+        if(this.nlu.slots.size() == 2) {
+            if ((this.nlu.slots.get(0).getName()).equals("Person")) {
+                info[0] = this.nlu.slots.get(0).getValue();
+                info[1] = this.nlu.slots.get(1).getValue();
+                return info;
+            } else if ((this.nlu.slots.get(0).getName()).equals("MusicName")) {
+                info[1] = this.nlu.slots.get(0).getValue();
+                info[0] = this.nlu.slots.get(1).getValue();
+                return info;
+            }
         }
-        else if((this.nlu.slots.get(0).getName()).equals("MusicName")) {
-            info[1] = this.nlu.slots.get(0).getValue();
-            info[0] = this.nlu.slots.get(1).getValue();
-            return info;
+        //只有人名或者歌名
+        else if(this.nlu.slots.size() == 1)
+        {
+            if ((this.nlu.slots.get(0).getName()).equals("Person")) {
+                info[0] = this.nlu.slots.get(0).getValue();
+                info[1] = " ";
+                return info;
+            } else if ((this.nlu.slots.get(0).getName()).equals("MusicName")) {
+                info[1] = this.nlu.slots.get(0).getValue();
+                info[0] = " ";
+                return info;
+            }
         }
-
         return info;
     }
 }

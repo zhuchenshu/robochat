@@ -50,4 +50,5 @@ public class Nlu {
     public Slot getSlotById(int id){
         return this.slots.get(id);
     }
+
 }
