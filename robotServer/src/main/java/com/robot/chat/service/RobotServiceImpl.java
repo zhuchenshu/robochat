@@ -9,9 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.*;
-import java.util.HashMap;
-
 @Service
 public class RobotServiceImpl implements RobotService {
     @Autowired
@@ -33,17 +30,17 @@ public class RobotServiceImpl implements RobotService {
         // 处理对话，输出nlu
         Nlu nlu = analysisQuery(query);
 
-        nlu.setDomain("music");
-        nlu.setIntent("Music.search");
-        Slots slot = new Slots();
-        Slots slot1 = new Slots();
-        slot.setName("Person");
-        slot.setValue("刘德华");
-        slot1.setValue("忘情水");
-        slot1.setName("MusicName");
-        Slots[] slots = new Slots[2];
-        slots[0] = slot; slots[1] = slot1;
-        nlu.setSlots(slots);
+//        nlu.setDomain("music");
+//        nlu.setIntent("Music.search");
+//        Slots slot = new Slots();
+//        Slots slot1 = new Slots();
+//        slot.setName("Person");
+//        slot.setValue("刘德华");
+//        slot1.setValue("忘情水");
+//        slot1.setName("MusicName");
+//        Slots[] slots = new Slots[2];
+//        slots[0] = slot; slots[1] = slot1;
+//        nlu.setSlots(slots);
         if (nlu.getDomain().equals(Nlu.MUSIC)) {
             skillPostBody.setQuery(query);
             skillPostBody.setNlu(nlu);
@@ -53,7 +50,7 @@ public class RobotServiceImpl implements RobotService {
                 header.setSkillId(1);
                 header.setSkillName("music");
                 chetResponse.setHeader(header);
-                payload.setText("主人，我已经为找到" + slot.getValue() + "的"+ slot1.getValue() + "啦");
+                // payload.setText("主人，我已经为找到" + slot.getValue() + "的"+ slot1.getValue() + "啦");
                 payload.setMusic(responseEntity.getBody());
                 chetResponse.setPayload(payload);
                 chetResponse.setNlu(nlu);
