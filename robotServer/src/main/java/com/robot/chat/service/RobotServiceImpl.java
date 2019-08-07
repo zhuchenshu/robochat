@@ -108,6 +108,90 @@ public class RobotServiceImpl implements RobotService {
      * }
      */
     private Nlu analysisQuery(String query) {
-        return new Nlu();
+		Nlu nlu = new Nlu();
+		String intent_str = null;
+		Slots[] term = new Slots[2]; //词槽（包含歌手名与歌名）
+		// TODO Auto-generated method stub
+		JiebaSegmenter segmenter = new JiebaSegmenter(); //调
+        String info_match[]=new String[3]; //存储分词与歌名与歌手名库匹配后的结果
+		
+		List<String> participle_res = segmenter.sentenceProcess(query); //列表participle_res用于存储分词后的结果
+		
+		for(int i=0;i<participle_res.size();i++){
+			String words=participle_res.get(i);
+			
+		    if(words.equals("播放")||words.equals("听"))    //初步判断意图
+			{
+		    	info_match[0]="music";
+				intent_str = "music.search";
+			}
+		   // else if(hashMap_find(words,"src/music.txt"))
+			 
+		    else if(hashMap_find(words,"C:\\Users\\tao34.li\\Desktop\\Work\\Work\\src\\file\\music.txt")) //判断分词能否与音乐库中的歌名匹配
+			{
+		    	info_match[1]=words;
+				term[0].name = "MusicName";
+				term[0].value = info_match[1];
+			}
+		    else if(hashMap_find(words,"C:\\Users\\tao34.li\\Desktop\\Work\\Work\\src\\file\\person.txt"))//判断分词能否与库中的歌手名匹配
+			{
+		    	info_match[2]=words;
+				term[1].name = "Person";
+				term[1].value = info_match[2];
+			}
+		}
+		
+		if(info_match[1]!=null&&info_match[2]!=null) //如果没有“听、播放”等关键词，进一步通过歌名与歌手名的匹配结果来判断意图是否为听音乐
+		{
+			info_match[0]="music";
+			intent_str = "music.search";
+		}
+		
+		//将域、意图、词槽赋值给nlu对象
+		nlu.setDomain(info_match(0));
+		nlu.setIntent(intent_str);
+		nlu.setChetNluSlots(term);
+		
+		return nlu;
     }
+	
+	public static boolean hashMap_find(String key, String path) {
+		HashMap<String, String> music_map = new HashMap<>();
+		FileInputStream fis = null;
+		InputStreamReader isr = null;
+		BufferedReader br = null; // 用于包装InputStreamReader,提高处理性能。因为BufferedReader有缓冲的，而InputStreamReader没有。
+		try {
+			String str = "";
+			// fis = new FileInputStream("C:\\Users\\86182\\Desktop\\聊天机器人\\music.txt");//
+			fis = new FileInputStream(path);// FileInputStream
+			
+			// 从文件系统中的某个文件中获取字节
+			isr = new InputStreamReader(fis, "UTF-8");// InputStreamReader 是字节流通向字符流的桥梁,
+			br = new BufferedReader(isr);// 从字符输入流中读取文件中的内容,封装了一个new InputStreamReader的对象
+			
+			while ((str = br.readLine()) != null) {
+				music_map.put(str.trim(), "1");// 存放键值对
+
+			}
+			
+			//判断hash_map键值里是否有该key
+			if (music_map.containsKey(key)) {
+				return true;
+			}
+
+		} catch (FileNotFoundException e) {
+			System.out.println("找不到指定文件");
+		} catch (IOException e) {
+			System.out.println("读取文件失败");
+		} finally {
+			try {
+				br.close();
+				isr.close();
+				fis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
 }
