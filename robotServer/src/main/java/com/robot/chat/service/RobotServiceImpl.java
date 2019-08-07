@@ -32,21 +32,10 @@ public class RobotServiceImpl implements RobotService {
         SkillPostBody skillPostBody = new SkillPostBody();
         ResponseEntity<SkillMusic> responseEntity = null;
         ResponseEntity<ChetBack> responseChetEntity = null;
-                // 处理对话，输出nlu
+        // 处理对话，输出nlu
         Nlu nlu = analysisQuery(query);
 
-//        nlu.setDomain("music");
-//        nlu.setIntent("Music.search");
-//        Slots slot = new Slots();
-//        Slots slot1 = new Slots();
-//        slot.setName("Person");
-//        slot.setValue("刘德华");
-//        slot1.setValue("忘情水");
-//        slot1.setName("MusicName");
-//        Slots[] slots = new Slots[2];
-//        slots[0] = slot; slots[1] = slot1;
-//        nlu.setSlots(slots);
-        if (nlu.getDomain().equals(Nlu.MUSIC)) {
+        if (nlu.getDomain() != null && nlu.getDomain().equals(Nlu.MUSIC)) {
             skillPostBody.setQuery(query);
             skillPostBody.setNlu(nlu);
             // 如果是音乐请求技能接口
@@ -60,7 +49,7 @@ public class RobotServiceImpl implements RobotService {
             }
             if (responseEntity.getBody().getCode().equals(200)) {
                 chetResponse.setHeader(header);
-                payload.setText("主人，我已经为找到" + nlu.getSlots()[0].getValue() + "的"+ nlu.getSlots()[0].getValue() + "啦");
+                payload.setText("主人，我已经为找到" + nlu.getSlots()[1].getValue() + "的"+ nlu.getSlots()[0].getValue() + "啦");
                 payload.setMusic(responseEntity.getBody());
                 chetResponse.setPayload(payload);
             } else {
@@ -94,20 +83,6 @@ public class RobotServiceImpl implements RobotService {
     /**
      * Pattern算法
      * @return 语言理解信息
-     * 示例：
-     * input ： 我要听刘德华的忘情水
-     * output：
-     * {
-     * "domain": "music",
-     * "intent": "SkillMusic.search",
-     * 	"slots": [{
-     * 		"value": "刘德华",
-     * 		"name": "Person"
-     *        }, {
-     * 		"value": "忘情水",
-     * 		"name": "MusicName"
-     *    }]
-     * }
      */
     private static Nlu analysisQuery(String words) {
 		int jud=0;//找到匹配字符串与否的标志
@@ -165,7 +140,7 @@ public class RobotServiceImpl implements RobotService {
 			j++;
 		}
 		//info_match[1]!=null&&info_match[2]!=null,若出现歌名，意图定为听音乐
-		if(info_match[2]!=null){   
+		if(info_match[2]!=null && info_match[1] != null){
 			info_match[0]="music";
 			intent_str = "music.search";
 		}
