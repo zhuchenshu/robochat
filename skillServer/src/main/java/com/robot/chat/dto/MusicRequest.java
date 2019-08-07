@@ -41,13 +41,13 @@ public class MusicRequest {
     public String[] getSlot(){
         String[] info = new String[2];
         if((this.nlu.slots.get(0).getName()).equals("Person")){
-            info[0] = this.nlu.slots.get(0).getName();
-            info[1] = this.nlu.slots.get(1).getName();
+            info[0] = this.nlu.slots.get(0).getValue();
+            info[1] = this.nlu.slots.get(1).getValue();
             return info;
         }
         else if((this.nlu.slots.get(0).getName()).equals("MusicName")) {
-            info[1] = this.nlu.slots.get(0).getName();
-            info[0] = this.nlu.slots.get(1).getName();
+            info[1] = this.nlu.slots.get(0).getValue();
+            info[0] = this.nlu.slots.get(1).getValue();
             return info;
         }
 

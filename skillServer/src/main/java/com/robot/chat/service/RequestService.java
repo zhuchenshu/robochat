@@ -1,5 +1,7 @@
 package com.robot.chat.service;
 
+import com.robot.chat.dto.Music;
+
 public interface RequestService {
-    void getResponse(String singer,String songName);
+    Music getResponse(String singer, String songName);
 }
