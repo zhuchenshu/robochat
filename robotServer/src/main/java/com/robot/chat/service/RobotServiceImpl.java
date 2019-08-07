@@ -92,53 +92,73 @@ public class RobotServiceImpl implements RobotService {
      *    }]
      * }
      */
-    private Nlu analysisQuery(String query) {
-		Nlu nlu = new Nlu();
-		String intent_str = null;
-		Slots[] term = new Slots[2]; //词槽（包含歌手名与歌名）
-		// TODO Auto-generated method stub
-		JiebaSegmenter segmenter = new JiebaSegmenter(); //调
-        String info_match[]=new String[3]; //存储分词与歌名与歌手名库匹配后的结果
+    private static Nlu analysisQuery(String words) {
+		int jud=0;//找到匹配字符串与否的标志
+		int j=0;
+		String temp=null;//初始化临时字符串
+		String intent_str = null;   //初始化意图
+		String info_match[]=new String[3];   //存储意图、歌名与人名
 		
-		List<String> participle_res = segmenter.sentenceProcess(query); //列表participle_res用于存储分词后的结果
+		String file_music="C:\Users\付丽\Desktop\新建文件夹\robochat\robotServer\src\main\java\com\robot\chat\service\file\music.txt";
+		String file_person="C:\Users\付丽\Desktop\新建文件夹\robochat\robotServer\src\main\java\com\robot\chat\service\file\person.txt";
+		String file_intent="C:\Users\付丽\Desktop\新建文件夹\robochat\robotServer\src\main\java\com\robot\chat\service\file\intent.txt";
 		
-		for(int i=0;i<participle_res.size();i++){
-			String words=participle_res.get(i);
-			
-		    if(words.equals("播放")||words.equals("听"))    //初步判断意图
-			{
-		    	info_match[0]="music";
-				intent_str = "music.search";
+		Nlu nlu = new Nlu();        //实例化Nlu对象
+		Slots term[] = new Slots[2];    //创建词槽数组
+		term[0]=new Slots();           //实例化每个词槽对象
+		term[1]=new Slots();
+		for(;words.length()>0;){
+			for(int i = 0;i<words.length();i++){
+				temp = words.substring(i); //截取字符串，得到最后一个字符
+				if(info_match[2]==null&&hashMap_find(temp,file_music)){
+					//与歌名库匹配
+					info_match[2]=temp;   //给歌名赋值
+					jud = 1;         
+					int number = temp.length();    //判断匹配字符串长度
+					words = words.substring(0,words.length()-number);  //截去已匹配字符串
+					term[0].setName("MusicName");        //nlu词槽对象的赋值
+					term[0].setValue(info_match[2]);
+					
+				}else if(info_match[1]==null&&hashMap_find(temp,file_person)){
+					//与人名库匹配
+			    	info_match[1]=temp;
+			    	jud = 1;
+					int number = temp.length();
+					words = words.substring(0,words.length()-number);
+					term[1].setName("Person");     //nlu词槽对象的赋值
+					term[1].setValue(info_match[1]);
+				}else if(info_match[0]==null&&hashMap_find(temp,file_intent)){
+					//与意图库匹配
+			    	info_match[0]="music"; //nlu域属性赋值
+			    	intent_str = "music.search";  //nlu意图属性赋值
+			    	jud = 1;
+					int number = temp.length();
+					words = words.substring(0,words.length()-number);
+				}
 			}
-		   // else if(hashMap_find(words,"src/music.txt"))
-			 
-		    else if(hashMap_find(words,"C:\\Users\\tao34.li\\Desktop\\Work\\Work\\src\\file\\music.txt")) //判断分词能否与音乐库中的歌名匹配
-			{
-		    	info_match[1]=words;
-				term[0].name = "MusicName";
-				term[0].value = info_match[1];
+			//当前字符串最后一个字符，与前面字符串中字符的结合，无法匹配到库中信息
+			//如：“我想听薛之谦的丑八怪”：
+			//“怪”
+			//“八怪”
+			//“丑八怪”....
+			if(jud == 0){
+				words = words.substring(0, words.length()-1);//截掉最后一个元素继续循环。	
 			}
-		    else if(hashMap_find(words,"C:\\Users\\tao34.li\\Desktop\\Work\\Work\\src\\file\\person.txt"))//判断分词能否与库中的歌手名匹配
-			{
-		    	info_match[2]=words;
-				term[1].name = "Person";
-				term[1].value = info_match[2];
-			}
+			jud = 0;
+			j++;
 		}
-		
-		if(info_match[1]!=null&&info_match[2]!=null) //如果没有“听、播放”等关键词，进一步通过歌名与歌手名的匹配结果来判断意图是否为听音乐
-		{
+		//info_match[1]!=null&&info_match[2]!=null,若出现歌名，意图定为听音乐
+		if(info_match[2]!=null){   
 			info_match[0]="music";
 			intent_str = "music.search";
 		}
 		
-		//将域、意图、词槽赋值给nlu对象
-		nlu.setDomain(info_match(0));
+		//nlu对象赋值
+		nlu.setDomain(info_match[0]);
 		nlu.setIntent(intent_str);
 		nlu.setChetNluSlots(term);
-		
 		return nlu;
-    }
+	}
 	
 	public static boolean hashMap_find(String key, String path) {
 		HashMap<String, String> music_map = new HashMap<>();
