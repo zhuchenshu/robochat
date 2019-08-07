@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.*;
+import java.util.HashMap;
+
 @Service
 public class RobotServiceImpl implements RobotService {
     @Autowired
@@ -75,7 +78,6 @@ public class RobotServiceImpl implements RobotService {
 
     /**
      * Pattern算法
-     * @param query 输入的对话字符串
      * @return 语言理解信息
      * 示例：
      * input ： 我要听刘德华的忘情水
@@ -99,9 +101,9 @@ public class RobotServiceImpl implements RobotService {
 		String intent_str = null;   //初始化意图
 		String info_match[]=new String[3];   //存储意图、歌名与人名
 		
-		String file_music="C:\Users\付丽\Desktop\新建文件夹\robochat\robotServer\src\main\java\com\robot\chat\service\file\music.txt";
-		String file_person="C:\Users\付丽\Desktop\新建文件夹\robochat\robotServer\src\main\java\com\robot\chat\service\file\person.txt";
-		String file_intent="C:\Users\付丽\Desktop\新建文件夹\robochat\robotServer\src\main\java\com\robot\chat\service\file\intent.txt";
+		String file_music="C:\\Users\\chenshu.zhu\\Desktop\\聊天机器人\\project\\robochat\\robotServer\\src\\main\\java\\com\\robot\\chat\\service\\file\\music.txt";
+		String file_person="C:\\Users\\chenshu.zhu\\Desktop\\聊天机器人\\project\\robochat\\robotServer\\src\\main\\java\\com\\robot\\chat\\service\\file\\person.txt";
+		String file_intent="C:\\Users\\chenshu.zhu\\Desktop\\聊天机器人\\project\\robochat\\robotServer\\src\\main\\java\\com\\robot\\chat\\service\\file\\intent.txt";
 		
 		Nlu nlu = new Nlu();        //实例化Nlu对象
 		Slots term[] = new Slots[2];    //创建词槽数组
@@ -156,7 +158,7 @@ public class RobotServiceImpl implements RobotService {
 		//nlu对象赋值
 		nlu.setDomain(info_match[0]);
 		nlu.setIntent(intent_str);
-		nlu.setChetNluSlots(term);
+		nlu.setSlots(term);
 		return nlu;
 	}
 	
