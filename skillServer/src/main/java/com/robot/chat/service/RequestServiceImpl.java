@@ -31,7 +31,7 @@ public class RequestServiceImpl implements RequestService {
         Music music = new Music();
 
         //调用第三方接口
-        ResponseEntity<Music> responseEntity = restTemplate.getForEntity(askMusicUrl, Music.class,singer,songName);
+        ResponseEntity<Music> responseEntity = restTemplate.getForEntity(askMusicUrl, Music.class,songName,singer);
         System.out.println(responseEntity);
 
         //处理返回json
