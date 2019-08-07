@@ -38,9 +38,16 @@ public class RequestServiceImpl implements RequestService {
         if(responseEntity.getStatusCodeValue() == 200){
             music = responseEntity.getBody();
             //请求播放地址接口需要音乐id
-            music.setPlayUrl(music.getData().getSongs().get(0).getId());
-            System.out.println(music);
+            if(music.getData().getSongs() == null) {
+                music.setCode(452);
+            }
+            else{
+                music.setPlayUrl(music.getData().getSongs().get(0).getId());
+                System.out.println(music);
+            }
         }
+        else
+            music.setCode(452);
         return music;
     }
 }
