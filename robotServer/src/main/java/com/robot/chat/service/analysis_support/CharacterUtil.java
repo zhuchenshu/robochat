@@ -1,4 +1,4 @@
-package analysis_support;
+package com.robot.chat.service.analysis_support;
 
 import java.util.regex.Pattern;
 

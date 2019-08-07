@@ -1,4 +1,4 @@
-package analysis_support;
+package com.robot.chat.service.analysis_support;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -6,33 +6,33 @@ import java.util.Map;
 
 
 /**
- * ´ÊµäÊ÷·Ö¶Î£¬±íÊ¾´ÊµäÊ÷µÄÒ»¸ö·ÖÖ¦
+ * ï¿½Êµï¿½ï¿½ï¿½ï¿½Ö¶Î£ï¿½ï¿½ï¿½Ê¾ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ö¦
  */
 class DictSegment implements Comparable<DictSegment> {
 
-    // ¹«ÓÃ×Öµä±í£¬´æ´¢ºº×Ö
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½
     private static final Map<Character, Character> charMap = new HashMap<Character, Character>(16, 0.95f);
-    // Êý×é´óÐ¡ÉÏÏÞ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½
     private static final int ARRAY_LENGTH_LIMIT = 3;
 
-    // Map´æ´¢½á¹¹
+    // Mapï¿½æ´¢ï¿½á¹¹
     private Map<Character, DictSegment> childrenMap;
-    // Êý×é·½Ê½´æ´¢½á¹¹
+    // ï¿½ï¿½ï¿½é·½Ê½ï¿½æ´¢ï¿½á¹¹
     private DictSegment[] childrenArray;
 
-    // µ±Ç°½ÚµãÉÏ´æ´¢µÄ×Ö·û
+    // ï¿½ï¿½Ç°ï¿½Úµï¿½ï¿½Ï´æ´¢ï¿½ï¿½ï¿½Ö·ï¿½
     private Character nodeChar;
-    // µ±Ç°½Úµã´æ´¢µÄSegmentÊýÄ¿
-    // storeSize <=ARRAY_LENGTH_LIMIT £¬Ê¹ÓÃÊý×é´æ´¢£¬ storeSize >ARRAY_LENGTH_LIMIT
-    // ,ÔòÊ¹ÓÃMap´æ´¢
+    // ï¿½ï¿½Ç°ï¿½Úµï¿½æ´¢ï¿½ï¿½Segmentï¿½ï¿½Ä¿
+    // storeSize <=ARRAY_LENGTH_LIMIT ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ storeSize >ARRAY_LENGTH_LIMIT
+    // ,ï¿½ï¿½Ê¹ï¿½ï¿½Mapï¿½æ´¢
     private int storeSize = 0;
-    // µ±Ç°DictSegment×´Ì¬ ,Ä¬ÈÏ 0 , 1±íÊ¾´Ó¸ù½Úµãµ½µ±Ç°½ÚµãµÄÂ·¾¶±íÊ¾Ò»¸ö´Ê
+    // ï¿½ï¿½Ç°DictSegment×´Ì¬ ,Ä¬ï¿½ï¿½ 0 , 1ï¿½ï¿½Ê¾ï¿½Ó¸ï¿½ï¿½Úµãµ½ï¿½ï¿½Ç°ï¿½Úµï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½Ê¾Ò»ï¿½ï¿½ï¿½ï¿½
     private int nodeState = 0;
 
 
     DictSegment(Character nodeChar) {
         if (nodeChar == null) {
-            throw new IllegalArgumentException("²ÎÊýÎª¿ÕÒì³££¬×Ö·û²»ÄÜÎª¿Õ");
+            throw new IllegalArgumentException("ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½");
         }
         this.nodeChar = nodeChar;
     }
@@ -44,7 +44,7 @@ class DictSegment implements Comparable<DictSegment> {
 
 
     /*
-     * ÅÐ¶ÏÊÇ·ñÓÐÏÂÒ»¸ö½Úµã
+     * ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Úµï¿½
      */
     boolean hasNextNode() {
         return this.storeSize > 0;
@@ -52,7 +52,7 @@ class DictSegment implements Comparable<DictSegment> {
 
 
     /**
-     * Æ¥Åä´Ê¶Î
+     * Æ¥ï¿½ï¿½Ê¶ï¿½
      * 
      * @param charArray
      * @return Hit
@@ -63,7 +63,7 @@ class DictSegment implements Comparable<DictSegment> {
 
 
     /**
-     * Æ¥Åä´Ê¶Î
+     * Æ¥ï¿½ï¿½Ê¶ï¿½
      * 
      * @param charArray
      * @param begin
@@ -76,7 +76,7 @@ class DictSegment implements Comparable<DictSegment> {
 
 
     /**
-     * Æ¥Åä´Ê¶Î
+     * Æ¥ï¿½ï¿½Ê¶ï¿½
      * 
      * @param charArray
      * @param begin
@@ -87,28 +87,28 @@ class DictSegment implements Comparable<DictSegment> {
     Hit match(char[] charArray, int begin, int length, Hit searchHit) {
 
         if (searchHit == null) {
-            // Èç¹ûhitÎª¿Õ£¬ÐÂ½¨
+            // ï¿½ï¿½ï¿½hitÎªï¿½Õ£ï¿½ï¿½Â½ï¿½
             searchHit = new Hit();
-            // ÉèÖÃhitµÄÆäÊµÎÄ±¾Î»ÖÃ
+            // ï¿½ï¿½ï¿½ï¿½hitï¿½ï¿½ï¿½ï¿½Êµï¿½Ä±ï¿½Î»ï¿½ï¿½
             searchHit.setBegin(begin);
         }
         else {
-            // ·ñÔòÒª½«HIT×´Ì¬ÖØÖÃ
+            // ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½HIT×´Ì¬ï¿½ï¿½ï¿½ï¿½
             searchHit.setUnmatch();
         }
-        // ÉèÖÃhitµÄµ±Ç°´¦ÀíÎ»ÖÃ
+        // ï¿½ï¿½ï¿½ï¿½hitï¿½Äµï¿½Ç°ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
         searchHit.setEnd(begin);
 
         Character keyChar = new Character(charArray[begin]);
         DictSegment ds = null;
 
-        // ÒýÓÃÊµÀý±äÁ¿Îª±¾µØ±äÁ¿£¬±ÜÃâ²éÑ¯Ê±Óöµ½¸üÐÂµÄÍ¬²½ÎÊÌâ
+        // ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¯Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         DictSegment[] segmentArray = this.childrenArray;
         Map<Character, DictSegment> segmentMap = this.childrenMap;
 
-        // STEP1 ÔÚ½ÚµãÖÐ²éÕÒkeyChar¶ÔÓ¦µÄDictSegment
+        // STEP1 ï¿½Ú½Úµï¿½ï¿½Ð²ï¿½ï¿½ï¿½keyCharï¿½ï¿½Ó¦ï¿½ï¿½DictSegment
         if (segmentArray != null) {
-            // ÔÚÊý×éÖÐ²éÕÒ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½
             DictSegment keySegment = new DictSegment(keyChar);
             int position = Arrays.binarySearch(segmentArray, 0, this.storeSize, keySegment);
             if (position >= 0) {
@@ -117,40 +117,40 @@ class DictSegment implements Comparable<DictSegment> {
 
         }
         else if (segmentMap != null) {
-            // ÔÚmapÖÐ²éÕÒ
+            // ï¿½ï¿½mapï¿½Ð²ï¿½ï¿½ï¿½
             ds = (DictSegment) segmentMap.get(keyChar);
         }
 
-        // STEP2 ÕÒµ½DictSegment£¬ÅÐ¶Ï´ÊµÄÆ¥Åä×´Ì¬£¬ÊÇ·ñ¼ÌÐøµÝ¹é£¬»¹ÊÇ·µ»Ø½á¹û
+        // STEP2 ï¿½Òµï¿½DictSegmentï¿½ï¿½ï¿½Ð¶Ï´Êµï¿½Æ¥ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Ý¹é£¬ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ø½ï¿½ï¿½
         if (ds != null) {
             if (length > 1) {
-                // ´ÊÎ´Æ¥ÅäÍê£¬¼ÌÐøÍùÏÂËÑË÷
+                // ï¿½ï¿½Î´Æ¥ï¿½ï¿½ï¿½ê£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 return ds.match(charArray, begin + 1, length - 1, searchHit);
             }
             else if (length == 1) {
 
-                // ËÑË÷×îºóÒ»¸öchar
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½char
                 if (ds.nodeState == 1) {
-                    // Ìí¼ÓHIT×´Ì¬ÎªÍêÈ«Æ¥Åä
+                    // ï¿½ï¿½ï¿½HIT×´Ì¬Îªï¿½ï¿½È«Æ¥ï¿½ï¿½
                     searchHit.setMatch();
                 }
                 if (ds.hasNextNode()) {
-                    // Ìí¼ÓHIT×´Ì¬ÎªÇ°×ºÆ¥Åä
+                    // ï¿½ï¿½ï¿½HIT×´Ì¬ÎªÇ°×ºÆ¥ï¿½ï¿½
                     searchHit.setPrefix();
-                    // ¼ÇÂ¼µ±Ç°Î»ÖÃµÄDictSegment
+                    // ï¿½ï¿½Â¼ï¿½ï¿½Ç°Î»ï¿½Ãµï¿½DictSegment
                     searchHit.setMatchedDictSegment(ds);
                 }
                 return searchHit;
             }
 
         }
-        // STEP3 Ã»ÓÐÕÒµ½DictSegment£¬ ½«HITÉèÖÃÎª²»Æ¥Åä
+        // STEP3 Ã»ï¿½ï¿½ï¿½Òµï¿½DictSegmentï¿½ï¿½ ï¿½ï¿½HITï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Æ¥ï¿½ï¿½
         return searchHit;
     }
 
 
     /**
-     * ¼ÓÔØÌî³ä´ÊµäÆ¬¶Î
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½Æ¬ï¿½ï¿½
      * 
      * @param charArray
      */
@@ -160,7 +160,7 @@ class DictSegment implements Comparable<DictSegment> {
 
 
     /**
-     * ÆÁ±Î´ÊµäÖÐµÄÒ»¸ö´Ê
+     * ï¿½ï¿½ï¿½Î´Êµï¿½ï¿½Ðµï¿½Ò»ï¿½ï¿½ï¿½ï¿½
      * 
      * @param charArray
      */
@@ -170,7 +170,7 @@ class DictSegment implements Comparable<DictSegment> {
 
 
     /**
-     * ¼ÓÔØÌî³ä´ÊµäÆ¬¶Î
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½Æ¬ï¿½ï¿½
      * 
      * @param charArray
      * @param begin
@@ -178,26 +178,26 @@ class DictSegment implements Comparable<DictSegment> {
      * @param enabled
      */
     private synchronized void fillSegment(char[] charArray, int begin, int length, int enabled) {
-        // »ñÈ¡×Öµä±íÖÐµÄºº×Ö¶ÔÏó
+        // ï¿½ï¿½È¡ï¿½Öµï¿½ï¿½ï¿½ÐµÄºï¿½ï¿½Ö¶ï¿½ï¿½ï¿½
         Character beginChar = new Character(charArray[begin]);
         Character keyChar = charMap.get(beginChar);
-        // ×ÖµäÖÐÃ»ÓÐ¸Ã×Ö£¬Ôò½«ÆäÌí¼ÓÈë×Öµä
+        // ï¿½Öµï¿½ï¿½ï¿½Ã»ï¿½Ð¸ï¿½ï¿½Ö£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½
         if (keyChar == null) {
             charMap.put(beginChar, beginChar);
             keyChar = beginChar;
         }
 
-        // ËÑË÷µ±Ç°½ÚµãµÄ´æ´¢£¬²éÑ¯¶ÔÓ¦keyCharµÄkeyChar£¬Èç¹ûÃ»ÓÐÔò´´½¨
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½Úµï¿½Ä´æ´¢ï¿½ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½Ó¦keyCharï¿½ï¿½keyCharï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ò´´½ï¿½
         DictSegment ds = lookforSegment(keyChar, enabled);
         if (ds != null) {
-            // ´¦ÀíkeyChar¶ÔÓ¦µÄsegment
+            // ï¿½ï¿½ï¿½ï¿½keyCharï¿½ï¿½Ó¦ï¿½ï¿½segment
             if (length > 1) {
-                // ´ÊÔª»¹Ã»ÓÐÍêÈ«¼ÓÈë´ÊµäÊ÷
+                // ï¿½ï¿½Ôªï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½
                 ds.fillSegment(charArray, begin + 1, length - 1, enabled);
             }
             else if (length == 1) {
-                // ÒÑ¾­ÊÇ´ÊÔªµÄ×îºóÒ»¸öchar,ÉèÖÃµ±Ç°½Úµã×´Ì¬Îªenabled£¬
-                // enabled=1±íÃ÷Ò»¸öÍêÕûµÄ´Ê£¬enabled=0±íÊ¾´Ó´ÊµäÖÐÆÁ±Îµ±Ç°´Ê
+                // ï¿½Ñ¾ï¿½ï¿½Ç´ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½char,ï¿½ï¿½ï¿½Ãµï¿½Ç°ï¿½Úµï¿½×´Ì¬Îªenabledï¿½ï¿½
+                // enabled=1ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä´Ê£ï¿½enabled=0ï¿½ï¿½Ê¾ï¿½Ó´Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½Ç°ï¿½ï¿½
                 ds.nodeState = enabled;
             }
         }
@@ -206,11 +206,11 @@ class DictSegment implements Comparable<DictSegment> {
 
 
     /**
-     * ²éÕÒ±¾½ÚµãÏÂ¶ÔÓ¦µÄkeyCharµÄsegment *
+     * ï¿½ï¿½ï¿½Ò±ï¿½ï¿½Úµï¿½ï¿½Â¶ï¿½Ó¦ï¿½ï¿½keyCharï¿½ï¿½segment *
      * 
      * @param keyChar
      * @param create
-     *            =1Èç¹ûÃ»ÓÐÕÒµ½£¬Ôò´´½¨ÐÂµÄsegment ; =0Èç¹ûÃ»ÓÐÕÒµ½£¬²»´´½¨£¬·µ»Ønull
+     *            =1ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½ò´´½ï¿½ï¿½Âµï¿½segment ; =0ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½null
      * @return
      */
     private DictSegment lookforSegment(Character keyChar, int create) {
@@ -218,37 +218,37 @@ class DictSegment implements Comparable<DictSegment> {
         DictSegment ds = null;
 
         if (this.storeSize <= ARRAY_LENGTH_LIMIT) {
-            // »ñÈ¡Êý×éÈÝÆ÷£¬Èç¹ûÊý×éÎ´´´½¨Ôò´´½¨Êý×é
+            // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½ï¿½ò´´½ï¿½ï¿½ï¿½ï¿½ï¿½
             DictSegment[] segmentArray = getChildrenArray();
-            // ËÑÑ°Êý×é
+            // ï¿½ï¿½Ñ°ï¿½ï¿½ï¿½ï¿½
             DictSegment keySegment = new DictSegment(keyChar);
             int position = Arrays.binarySearch(segmentArray, 0, this.storeSize, keySegment);
             if (position >= 0) {
                 ds = segmentArray[position];
             }
 
-            // ±éÀúÊý×éºóÃ»ÓÐÕÒµ½¶ÔÓ¦µÄsegment
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½segment
             if (ds == null && create == 1) {
                 ds = keySegment;
                 if (this.storeSize < ARRAY_LENGTH_LIMIT) {
-                    // Êý×éÈÝÁ¿Î´Âú£¬Ê¹ÓÃÊý×é´æ´¢
+                    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢
                     segmentArray[this.storeSize] = ds;
-                    // segmentÊýÄ¿+1
+                    // segmentï¿½ï¿½Ä¿+1
                     this.storeSize++;
                     Arrays.sort(segmentArray, 0, this.storeSize);
 
                 }
                 else {
-                    // Êý×éÈÝÁ¿ÒÑÂú£¬ÇÐ»»Map´æ´¢
-                    // »ñÈ¡MapÈÝÆ÷£¬Èç¹ûMapÎ´´´½¨,Ôò´´½¨Map
+                    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½Mapï¿½æ´¢
+                    // ï¿½ï¿½È¡Mapï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MapÎ´ï¿½ï¿½ï¿½ï¿½,ï¿½ò´´½ï¿½Map
                     Map<Character, DictSegment> segmentMap = getChildrenMap();
-                    // ½«Êý×éÖÐµÄsegmentÇ¨ÒÆµ½MapÖÐ
+                    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½segmentÇ¨ï¿½Æµï¿½Mapï¿½ï¿½
                     migrate(segmentArray, segmentMap);
-                    // ´æ´¢ÐÂµÄsegment
+                    // ï¿½æ´¢ï¿½Âµï¿½segment
                     segmentMap.put(keyChar, ds);
-                    // segmentÊýÄ¿+1 £¬ ±ØÐëÔÚÊÍ·ÅÊý×éÇ°Ö´ÐÐstoreSize++ £¬ È·±£¼«¶ËÇé¿öÏÂ£¬²»»áÈ¡µ½¿ÕµÄÊý×é
+                    // segmentï¿½ï¿½Ä¿+1 ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Ö´ï¿½ï¿½storeSize++ ï¿½ï¿½ È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â£ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½
                     this.storeSize++;
-                    // ÊÍ·Åµ±Ç°µÄÊý×éÒýÓÃ
+                    // ï¿½Í·Åµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     this.childrenArray = null;
                 }
 
@@ -256,15 +256,15 @@ class DictSegment implements Comparable<DictSegment> {
 
         }
         else {
-            // »ñÈ¡MapÈÝÆ÷£¬Èç¹ûMapÎ´´´½¨,Ôò´´½¨Map
+            // ï¿½ï¿½È¡Mapï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MapÎ´ï¿½ï¿½ï¿½ï¿½,ï¿½ò´´½ï¿½Map
             Map<Character, DictSegment> segmentMap = getChildrenMap();
-            // ËÑË÷Map
+            // ï¿½ï¿½ï¿½ï¿½Map
             ds = (DictSegment) segmentMap.get(keyChar);
             if (ds == null && create == 1) {
-                // ¹¹ÔìÐÂµÄsegment
+                // ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½segment
                 ds = new DictSegment(keyChar);
                 segmentMap.put(keyChar, ds);
-                // µ±Ç°½Úµã´æ´¢segmentÊýÄ¿+1
+                // ï¿½ï¿½Ç°ï¿½Úµï¿½æ´¢segmentï¿½ï¿½Ä¿+1
                 this.storeSize++;
             }
         }
@@ -274,7 +274,7 @@ class DictSegment implements Comparable<DictSegment> {
 
 
     /**
-     * »ñÈ¡Êý×éÈÝÆ÷ Ïß³ÌÍ¬²½·½·¨
+     * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß³ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     private DictSegment[] getChildrenArray() {
         if (this.childrenArray == null) {
@@ -289,7 +289,7 @@ class DictSegment implements Comparable<DictSegment> {
 
 
     /**
-     * »ñÈ¡MapÈÝÆ÷ Ïß³ÌÍ¬²½·½·¨
+     * ï¿½ï¿½È¡Mapï¿½ï¿½ï¿½ï¿½ ï¿½ß³ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     private Map<Character, DictSegment> getChildrenMap() {
         if (this.childrenMap == null) {
@@ -304,7 +304,7 @@ class DictSegment implements Comparable<DictSegment> {
 
 
     /**
-     * ½«Êý×éÖÐµÄsegmentÇ¨ÒÆµ½MapÖÐ
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½segmentÇ¨ï¿½Æµï¿½Mapï¿½ï¿½
      * 
      * @param segmentArray
      */
@@ -318,13 +318,13 @@ class DictSegment implements Comparable<DictSegment> {
 
 
     /**
-     * ÊµÏÖComparable½Ó¿Ú
+     * Êµï¿½ï¿½Comparableï¿½Ó¿ï¿½
      * 
      * @param o
      * @return int
      */
     public int compareTo(DictSegment o) {
-        // ¶Ôµ±Ç°½Úµã´æ´¢µÄchar½øÐÐ±È½Ï
+        // ï¿½Ôµï¿½Ç°ï¿½Úµï¿½æ´¢ï¿½ï¿½charï¿½ï¿½ï¿½Ð±È½ï¿½
         return this.nodeChar.compareTo(o.nodeChar);
     }
 

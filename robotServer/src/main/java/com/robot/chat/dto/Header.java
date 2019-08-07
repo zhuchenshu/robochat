@@ -15,6 +15,32 @@ public class Header {
      */
     private String skillName;
 
+    /**
+     * 自定义状态码
+     */
+    private Integer code = 0;
+
+    /**
+     * 状态码所对应的信息说明
+     */
+    private String message = "正常";
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public Integer getSkillId() {
         return skillId;
     }

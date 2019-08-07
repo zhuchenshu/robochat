@@ -1,13 +1,11 @@
-package analysis_support;
+package com.robot.chat.service.analysis_support;
 
+import com.robot.chat.service.analysis_support.viterbi.FinalSeg;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import analysis_support.viterbi.FinalSeg;
-
 
 public class JiebaSegmenter {
     private static WordDictionary wordDict = WordDictionary.getInstance();
