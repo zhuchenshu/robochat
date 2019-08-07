@@ -29,7 +29,7 @@ public class RequestController {
          * 获取歌手名和歌名
          */
         String[] inputMsg = new String[2];
-        
+
         inputMsg = musicRequest.getSlot();
         music = requestService.getResponse(inputMsg[0],inputMsg[1]);
 
