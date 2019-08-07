@@ -1,5 +1,7 @@
 package com.robot.chat.dto;
 
+import java.util.List;
+
 /**
  *
  * @Description 歌曲类，记录音乐id
@@ -21,6 +23,16 @@ public class Song {
      * 歌曲专辑
      */
     private Album al;
+
+    private List<Artist> ar;
+
+    public List<Artist> getAr() {
+        return ar;
+    }
+
+    public void setAr(List<Artist> ar) {
+        this.ar = ar;
+    }
 
     public Album getAl() {
         return al;
