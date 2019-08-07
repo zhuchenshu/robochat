@@ -2,12 +2,18 @@ package com.robot.chat.service;
 
 import com.robot.chat.dto.*;
 import com.robot.chat.dto.dtoSkill.SkillMusic;
+import com.robot.chat.service.analysis_support.JiebaSegmenter;
+import com.robot.chat.service.analysis_support.WordDictionary;
 import com.robot.chat.target.ChetBack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class RobotServiceImpl implements RobotService {
@@ -107,6 +113,10 @@ public class RobotServiceImpl implements RobotService {
      *    }]
      * }
      */
+
+    public static void main(String[] args) {
+    //	analysisQuery("我想听冰雨");
+	}
     private Nlu analysisQuery(String query) {
 		Nlu nlu = new Nlu();
 		String intent_str = null;
@@ -127,17 +137,17 @@ public class RobotServiceImpl implements RobotService {
 			}
 		   // else if(hashMap_find(words,"src/music.txt"))
 			 
-		    else if(hashMap_find(words,"C:\\Users\\tao34.li\\Desktop\\Work\\Work\\src\\file\\music.txt")) //判断分词能否与音乐库中的歌名匹配
+		    else if(hashMap_find(words,"C:\\Users\\chenshu.zhu\\Desktop\\聊天机器人\\project\\robochat\\robotServer\\src\\main\\java\\com\\robot\\chat\\service\\file\\music.txt")) //判断分词能否与音乐库中的歌名匹配
 			{
 		    	info_match[1]=words;
-				term[0].name = "MusicName";
-				term[0].value = info_match[1];
+				term[0].setName("MusicName");
+				term[0].setValue(info_match[1]);
 			}
-		    else if(hashMap_find(words,"C:\\Users\\tao34.li\\Desktop\\Work\\Work\\src\\file\\person.txt"))//判断分词能否与库中的歌手名匹配
+		    else if(hashMap_find(words,"C:\\Users\\chenshu.zhu\\Desktop\\聊天机器人\\project\\robochat\\robotServer\\src\\main\\java\\com\\robot\\chat\\service\\file\\person.txt"))//判断分词能否与库中的歌手名匹配
 			{
 		    	info_match[2]=words;
-				term[1].name = "Person";
-				term[1].value = info_match[2];
+				term[1].setName("Person");
+				term[1].setValue(info_match[2]);
 			}
 		}
 		
@@ -148,9 +158,9 @@ public class RobotServiceImpl implements RobotService {
 		}
 		
 		//将域、意图、词槽赋值给nlu对象
-		nlu.setDomain(info_match(0));
+		nlu.setDomain(info_match[0]);
 		nlu.setIntent(intent_str);
-		nlu.setChetNluSlots(term);
+		nlu.setSlots(term);
 		
 		return nlu;
     }

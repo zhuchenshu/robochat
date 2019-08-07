@@ -1,4 +1,8 @@
-package analysis_support.viterbi;
+package com.robot.chat.service.analysis_support.viterbi;
+
+import com.robot.chat.service.analysis_support.CharacterUtil;
+import com.robot.chat.service.analysis_support.Node;
+import com.robot.chat.service.analysis_support.Pair;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,10 +16,6 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.Collections;
-
-import analysis_support.CharacterUtil;
-import analysis_support.Pair;
-import analysis_support.Node;
 
 
 public class FinalSeg {

@@ -1,4 +1,4 @@
-package analysis_support;
+package com.robot.chat.service.analysis_support;
 
 public class Pair<K> {
     public K key;

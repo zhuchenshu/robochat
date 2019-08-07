@@ -1,4 +1,4 @@
-package analysis_support;
+package com.robot.chat.service.analysis_support;
 
 import java.io.BufferedReader;
 import java.nio.file.DirectoryStream;
@@ -104,7 +104,7 @@ public class WordDictionary {
 
     public void loadDict() {
         _dict = new DictSegment((char) 0);
-        InputStream is = this.getClass().getResourceAsStream(MAIN_DICT);
+        InputStream is = WordDictionary.class.getResourceAsStream(MAIN_DICT);
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
 

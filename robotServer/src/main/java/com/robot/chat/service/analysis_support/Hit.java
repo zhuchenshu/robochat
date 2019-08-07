@@ -23,7 +23,7 @@
  * provided by Linliangyi and copyright 2012 by Oolong studio
  * 
  */
-package analysis_support;
+package com.robot.chat.service.analysis_support;
 
 /**
  * 表示一次词典匹配的命中
