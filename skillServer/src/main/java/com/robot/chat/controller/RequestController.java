@@ -2,6 +2,7 @@ package com.robot.chat.controller;
 
 import com.robot.chat.dto.Music;
 import com.robot.chat.dto.MusicRequest;
+import com.robot.chat.service.RequestService;
 import com.robot.chat.service.RequestServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class RequestController {
     @Autowired
-    RequestServiceImpl requestService;
+    RequestService requestService;
 
     @PostMapping
     public Music getRequest(@RequestBody MusicRequest musicRequest){
