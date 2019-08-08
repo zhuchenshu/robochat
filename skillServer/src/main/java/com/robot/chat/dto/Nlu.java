@@ -13,15 +13,15 @@ public class Nlu {
     /**
      * NLU域值
      */
-    public String domain;
+    private String domain;
     /**
      * NLU意图值
      */
-    public String intent;
+    private String intent;
     /**
      * 词槽链表
      */
-    public List<Slot> slots;
+    private List<Slot> slots;
 
     public String getDomain() {
         return domain;

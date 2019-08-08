@@ -14,11 +14,11 @@ public class MusicRequest {
     /**
      * 请求字符串
      */
-    public String query;
+    private String query;
     /**
      * NLU结果类
      */
-    public Nlu nlu;
+    private Nlu nlu;
 
     public String getQuery() {
         return query;
@@ -44,27 +44,28 @@ public class MusicRequest {
 
     public String[] getSlot(){
         String[] info = new String[2];
+        List<Slot> slotList = this.getNlu().getSlots();
         //人名、歌名都有
-        if(this.nlu.slots.size() == 2) {
-            if ((this.nlu.slots.get(0).getName()).equals("Person")) {
-                info[0] = this.nlu.slots.get(0).getValue();
-                info[1] = this.nlu.slots.get(1).getValue();
+        if(slotList.size() == 2) {
+            if ((slotList.get(0).getName()).equals("Person")) {
+                info[0] = slotList.get(0).getValue();
+                info[1] = slotList.get(1).getValue();
                 return info;
-            } else if ((this.nlu.slots.get(0).getName()).equals("MusicName")) {
-                info[1] = this.nlu.slots.get(0).getValue();
-                info[0] = this.nlu.slots.get(1).getValue();
+            } else if ((slotList.get(0).getName()).equals("MusicName")) {
+                info[1] = slotList.get(0).getValue();
+                info[0] = slotList.get(1).getValue();
                 return info;
             }
         }
         //只有人名或者歌名
-        else if(this.nlu.slots.size() == 1)
+        else if(slotList.size() == 1)
         {
-            if ((this.nlu.slots.get(0).getName()).equals("Person")) {
-                info[0] = this.nlu.slots.get(0).getValue();
+            if ((slotList.get(0).getName()).equals("Person")) {
+                info[0] = slotList.get(0).getValue();
                 info[1] = " ";
                 return info;
-            } else if ((this.nlu.slots.get(0).getName()).equals("MusicName")) {
-                info[1] = this.nlu.slots.get(0).getValue();
+            } else if ((slotList.get(0).getName()).equals("MusicName")) {
+                info[1] = slotList.get(0).getValue();
                 info[0] = " ";
                 return info;
             }

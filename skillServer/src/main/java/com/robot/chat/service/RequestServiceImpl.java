@@ -42,6 +42,7 @@ public class RequestServiceImpl implements RequestService {
                 music.setCode(452);
             }
             else{
+                music.getData().getSongs().get(0).setFirstAr();
                 music.setPlayUrl(music.getData().getSongs().get(0).getId());
                 System.out.println(music);
             }
