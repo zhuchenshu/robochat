@@ -19,7 +19,7 @@ public class RobotServiceImplTest extends ChatApplicationTests {
         logger.info("测试输入歌手歌曲信息时返回歌曲信息");
         String queryMusic = "我想听五月天的倔强";
         ChatResponse back = robotService.getResponse(queryMusic);
-        // Assertions.assertThat().isEqualTo();
+        Assertions.assertThat(back.getHeader().getSkillId()).isEqualTo(1);
 
         logger.info("测试输入闲聊接口时输出闲聊类型回复");
         String queryChat = "你好呀";
