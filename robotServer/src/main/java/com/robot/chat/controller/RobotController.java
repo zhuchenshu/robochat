@@ -1,6 +1,7 @@
 package com.robot.chat.controller;
 
 import com.robot.chat.dto.ChatResponse;
+import com.robot.chat.dto.Query;
 import com.robot.chat.service.RobotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,17 +33,3 @@ public class RobotController {
     }
 }
 
-/**
- * 请求接受包装类
- */
-class Query {
-    private String query;
-
-    public String getQuery() {
-        return query;
-    }
-
-    public void setQuery(String query) {
-        this.query = query;
-    }
-}
