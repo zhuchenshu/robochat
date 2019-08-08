@@ -1,5 +1,7 @@
 package com.robot.chat.dto.dtoSkill;
 
+import java.util.List;
+
 public class Song {
     /**
      * 歌曲在曲库中的id
@@ -14,6 +16,19 @@ public class Song {
      * 歌曲专辑
      */
     private Album al;
+
+    /**
+     * 演唱者列表
+     */
+    private List<Artist> ar;
+
+    public List<Artist> getAr() {
+        return ar;
+    }
+
+    public void setAr(List<Artist> ar) {
+        this.ar = ar;
+    }
 
     public Album getAl() {
         return al;
