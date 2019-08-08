@@ -42,7 +42,7 @@ public class RobotServiceImpl implements RobotService {
             header.setSkillId(1);
             header.setSkillName("music");
             try {
-                responseEntity = restTemplate.postForEntity("http://192.168.43.80:8080/music", skillPostBody, SkillMusic.class);
+                responseEntity = restTemplate.postForEntity("http://127.0.0.1:8082/music", skillPostBody, SkillMusic.class);
 				if (responseEntity.getBody().getCode().equals(200)) {
 					payload.setText("主人，我已经为找到" + nlu.getSlots()[1].getValue() + "的"+ nlu.getSlots()[0].getValue() + "啦");
 					payload.setMusic(responseEntity.getBody());
@@ -86,12 +86,13 @@ public class RobotServiceImpl implements RobotService {
      * Pattern算法
      * @return 语言理解信息
      */
-    private static Nlu analysisQuery(String words) {
+    private Nlu analysisQuery(String words) {
 		int jud=0;//找到匹配字符串与否的标志
 		int j=0;
 		String temp=null;//初始化临时字符串
-		String intent_str = null;   //初始化意图
+		String intent_str = "chat";   //初始化意图
 		String info_match[]=new String[3];   //存储意图、歌名与人名
+		info_match[0] = "chat";
 
 		String file_music="C:\\Users\\chenshu.zhu\\Desktop\\聊天机器人\\project\\robochat\\robotServer\\src\\main\\java\\com\\robot\\chat\\service\\file\\music.txt";
 		String file_person="C:\\Users\\chenshu.zhu\\Desktop\\聊天机器人\\project\\robochat\\robotServer\\src\\main\\java\\com\\robot\\chat\\service\\file\\person.txt";
@@ -154,7 +155,7 @@ public class RobotServiceImpl implements RobotService {
 		return nlu;
 	}
 	
-	public static boolean hashMap_find(String key, String path) {
+	public boolean hashMap_find(String key, String path) {
 		HashMap<String, String> music_map = new HashMap<>();
 		FileInputStream fis = null;
 		InputStreamReader isr = null;

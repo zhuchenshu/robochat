@@ -32,6 +32,9 @@ public class RobotController {
     }
 }
 
+/**
+ * 请求接受包装类
+ */
 class Query {
     private String query;
 

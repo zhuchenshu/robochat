@@ -7,7 +7,7 @@ package com.robot.chat.dto;
  */
 public class Nlu {
     public static String MUSIC = "music";
-    public static String CHET = "chet";
+    public static String CHET = "chat";
     /**
      * 域
      */
@@ -15,7 +15,7 @@ public class Nlu {
     /**
      * 意图
      */
-    private String intent;
+    private String intent = Nlu.CHET;
     /**
      * 词槽
      */
