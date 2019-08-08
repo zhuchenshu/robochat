@@ -1,19 +1,18 @@
 package com.robot.chat.service;
 
 import com.robot.chat.dto.*;
-import com.robot.chat.dto.dtoSkill.Data;
 import com.robot.chat.dto.dtoSkill.SkillMusic;
 import com.robot.chat.target.ChetBack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.client.RestTemplate;
 
-import javax.swing.text.html.Option;
 import java.io.*;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -23,6 +22,10 @@ public class RobotServiceImpl implements RobotService {
     private RestTemplate restTemplate;
     @Value(value = "${robot.skillUrl}")
     private String skillUrl;
+	@Value(value = "${robot.robotName}")
+    private String robotName;
+	@Value(value = "${robot.appellation}")
+    private String appellation;
 
     /**
      * 处理对话，并回复
@@ -31,62 +34,91 @@ public class RobotServiceImpl implements RobotService {
      */
     @Override
     public ChatResponse getResponse(String query) {
-        ChatResponse chetResponse = new ChatResponse();
-        Header header = new Header();
-        Payload payload = new Payload();
-        SkillPostBody skillPostBody = new SkillPostBody();
-        ResponseEntity<SkillMusic> responseEntity = null;
-        ResponseEntity<ChetBack> responseChetEntity = null;
+        ChatResponse chetResponse;
+
         // 处理对话，输出nlu
         Nlu nlu = analysisQuery(query);
+
         if (nlu.getDomain() != null && nlu.getDomain().equals(Nlu.MUSIC)) {
-            skillPostBody.setQuery(query);
-            skillPostBody.setNlu(nlu);
-            // 如果是音乐请求技能接口
-            header.setSkillId(1);
-            header.setSkillName("music");
-            try {
-                responseEntity = restTemplate.postForEntity("http://127.0.0.1:8082/music", skillPostBody, SkillMusic.class);
-				SkillMusic skillMusic = responseEntity.getBody();
-                if (skillMusic.getCode().equals(200)) {
-                	String singer = skillMusic.getData().getSongs().get(0).getAr().get(0).getName();
-					payload.setText("主人，我已经为找到" + singer + "的"+ nlu.getSlots()[0].getValue() + "啦");
-					payload.setMusic(skillMusic);
-					payload.getMusic().setMusicName(nlu.getSlots()[0].getValue());
-					payload.getMusic().setSinger(singer);
-					chetResponse.setPayload(payload);
-				} else {
-					header.setCode(2);
-					header.setMessage("你想听，我太高兴了");
-				}
-            } catch (Exception e) {
-                header.setCode(1);
-                header.setMessage("音乐正忙，请稍后再试");
-            }
-			chetResponse.setHeader(header);
-            chetResponse.setNlu(nlu);
+			// 如果是音乐请求技能接口
+        	chetResponse = this.getSkillResponse(query, nlu);
         } else {
             // 如果不是音乐请求闲聊接口
-            try {
-                responseChetEntity = restTemplate.getForEntity("https://api.tianapi.com/txapi/robot/?key=9d45fb6c42449577890a9606f1cb2168&question=" + query, ChetBack.class);
-				if (responseChetEntity.getBody().getCode().equals(200)) {
-					header.setSkillId(0);
-					header.setSkillName("chat");
-					payload.setText(responseChetEntity.getBody().getNewslist()[0].getReply()
-							.replace("{robotname}", "小T")
-							.replace("{appellation}", "大白熊"));
-					chetResponse.setPayload(payload);
-					chetResponse.setNlu(nlu);
-				}
-            } catch (Exception e) {
-                header.setCode(3);
-                header.setMessage("闲聊正忙，请稍后再试");
-            }
-
+            chetResponse = this.getChatResponse(query, nlu);
         }
-		chetResponse.setHeader(header);
         return chetResponse;
     }
+
+	/**
+	 * 请求技能服务
+	 * @param query 请求内容
+	 * @param nlu 内容含义
+	 * @return 接口回复对象
+	 */
+	public ChatResponse getSkillResponse(String query, Nlu nlu) {
+		ChatResponse chetResponse = new ChatResponse();
+		Header header = new Header();
+		Payload payload = new Payload();
+		SkillPostBody skillPostBody = new SkillPostBody();
+		ResponseEntity<SkillMusic> responseEntity = null;
+
+		skillPostBody.setQuery(query);
+		skillPostBody.setNlu(nlu);
+		header.setSkillId(1);
+		header.setSkillName("music");
+		try {
+			responseEntity = restTemplate.postForEntity("http://" + this.skillUrl + "/music", skillPostBody, SkillMusic.class);
+			SkillMusic skillMusic = responseEntity.getBody();
+			if (skillMusic.getCode().equals(200)) {
+				String singer = skillMusic.getData().getSongs().get(0).getAr().get(0).getName();
+				payload.setText("主人，我已经为找到" + singer + "的"+ nlu.getSlots()[0].getValue() + "啦");
+				payload.setMusic(skillMusic);
+				payload.getMusic().setMusicName(nlu.getSlots()[0].getValue());
+				payload.getMusic().setSinger(singer);
+				chetResponse.setPayload(payload);
+			} else {
+				header.setCode(2);
+				header.setMessage("你想听，我太高兴了");
+			}
+		} catch (Exception e) {
+			header.setCode(1);
+			header.setMessage("音乐正忙，请稍后再试");
+		}
+		chetResponse.setHeader(header);
+		chetResponse.setNlu(nlu);
+		return chetResponse;
+	}
+
+	/**
+	 * 请求闲聊服务
+	 * @param query 请求内容
+	 * @param nlu 内容含义
+	 * @return 接口回复对象
+	 */
+	public ChatResponse getChatResponse(String query, Nlu nlu) {
+		ChatResponse chetResponse = new ChatResponse();
+		Header header = new Header();
+		Payload payload = new Payload();
+		ResponseEntity<ChetBack> responseChetEntity = null;
+		// 如果不是音乐请求闲聊接口
+		try {
+			responseChetEntity = restTemplate.getForEntity("https://api.tianapi.com/txapi/robot/?key=9d45fb6c42449577890a9606f1cb2168&question=" + query, ChetBack.class);
+			if (responseChetEntity.getBody().getCode().equals(200)) {
+				header.setSkillId(0);
+				header.setSkillName("chat");
+				payload.setText(responseChetEntity.getBody().getNewslist()[0].getReply()
+						.replace("{robotname}", this.robotName)
+						.replace("{appellation}", this.appellation));
+				chetResponse.setPayload(payload);
+				chetResponse.setNlu(nlu);
+			}
+		} catch (Exception e) {
+			header.setCode(3);
+			header.setMessage("闲聊正忙，请稍后再试");
+		}
+		chetResponse.setHeader(header);
+		return chetResponse;
+	}
 
     /**
      * Pattern算法
@@ -100,9 +132,9 @@ public class RobotServiceImpl implements RobotService {
 		String info_match[]=new String[3];   //存储意图、歌名与人名
 		info_match[0] = "chat";
 
-		String file_music="C:\\Users\\chenshu.zhu\\Desktop\\聊天机器人\\project\\robochat\\robotServer\\src\\main\\java\\com\\robot\\chat\\service\\file\\music.txt";
-		String file_person="C:\\Users\\chenshu.zhu\\Desktop\\聊天机器人\\project\\robochat\\robotServer\\src\\main\\java\\com\\robot\\chat\\service\\file\\person.txt";
-		String file_intent="C:\\Users\\chenshu.zhu\\Desktop\\聊天机器人\\project\\robochat\\robotServer\\src\\main\\java\\com\\robot\\chat\\service\\file\\intent.txt";
+		String file_music=  "classpath:music.txt";
+		String file_person= "classpath:person.txt";
+		String file_intent= "classpath:intent.txt";
 
 		Nlu nlu = new Nlu();        //实例化Nlu对象
 		Slots term[] = new Slots[2];    //创建词槽数组
@@ -111,7 +143,7 @@ public class RobotServiceImpl implements RobotService {
 		for(;words.length()>0;){
 			for(int i = 0;i<words.length();i++){
 				temp = words.substring(i); //截取字符串，得到最后一个字符
-				if(info_match[2]==null&&hashMap_find(temp,file_music)){
+				if(info_match[2]==null && hashMap_find(temp,file_music)){
 					//与歌名库匹配
 					info_match[2]=temp;   //给歌名赋值
 					jud = 1;
@@ -168,8 +200,8 @@ public class RobotServiceImpl implements RobotService {
 		BufferedReader br = null; // 用于包装InputStreamReader,提高处理性能。因为BufferedReader有缓冲的，而InputStreamReader没有。
 		try {
 			String str = "";
-			// fis = new FileInputStream("C:\\Users\\86182\\Desktop\\聊天机器人\\music.txt");//
-			fis = new FileInputStream(path);// FileInputStream
+			File file = ResourceUtils.getFile(path);
+			fis = new FileInputStream(file);// FileInputStream
 
 			// 从文件系统中的某个文件中获取字节
 			isr = new InputStreamReader(fis, "UTF-8");// InputStreamReader 是字节流通向字符流的桥梁,
