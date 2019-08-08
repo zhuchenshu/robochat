@@ -1,39 +1,65 @@
 package com.robot.chat.dto.dtoSkill;
 
 public class SkillMusic {
-        /**
-         * 状态码
-         */
-        private Integer code;
+    /**
+     * 状态码
+     */
+    private Integer code;
 
-        /**
-         * 歌曲数据类型
-         */
-        private Data data;
+    /**
+     * 歌曲数据类型
+     */
+    private Data data;
+    /**
+     * 歌名
+     */
+    private String musicName;
+    /**
+     * 歌手名
+     */
+    private String singer;
+    /**
+     * 播放地址
+     */
+    private String playUrl;
 
-        private String playUrl;
+    public String getMusicName() {
+        return musicName;
+    }
 
-        public Integer getCode() {
-            return code;
-        }
+    public void setMusicName(String musicName) {
+        this.musicName = musicName;
+    }
 
-        public void setCode(Integer code) {
-            this.code = code;
-        }
+    public String getSinger() {
+        return singer;
+    }
 
-        public Data getData() {
-            return data;
-        }
+    public void setSinger(String singer) {
+        this.singer = singer;
+    }
 
-        public void setData(Data data) {
-            this.data = data;
-        }
+    public Integer getCode() {
+        return code;
+    }
 
-        public void setPlayUrl(String playUrl) {
-            this.playUrl = playUrl;
-        }
+    public void setCode(Integer code) {
+        this.code = code;
+    }
 
-        public String getPlayUrl() {
-            return playUrl;
-        }
+    public Data getData() {
+        return data;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
+    }
+
+    public void setPlayUrl(String playUrl) {
+        this.playUrl = playUrl;
+    }
+
+    public String getPlayUrl() {
+        return playUrl;
+    }
 }

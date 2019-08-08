@@ -43,40 +43,42 @@ public class RobotServiceImpl implements RobotService {
             header.setSkillName("music");
             try {
                 responseEntity = restTemplate.postForEntity("http://192.168.43.80:8080/music", skillPostBody, SkillMusic.class);
+				if (responseEntity.getBody().getCode().equals(200)) {
+					payload.setText("主人，我已经为找到" + nlu.getSlots()[1].getValue() + "的"+ nlu.getSlots()[0].getValue() + "啦");
+					payload.setMusic(responseEntity.getBody());
+					payload.getMusic().setMusicName(nlu.getSlots()[0].getValue());
+					payload.getMusic().setSinger(nlu.getSlots()[1].getValue());
+					chetResponse.setPayload(payload);
+				} else {
+					header.setCode(2);
+					header.setMessage("你想听，我太高兴了");
+				}
             } catch (Exception e) {
                 header.setCode(1);
                 header.setMessage("音乐正忙，请稍后再试");
             }
-            if (responseEntity.getBody().getCode().equals(200)) {
-                chetResponse.setHeader(header);
-                payload.setText("主人，我已经为找到" + nlu.getSlots()[1].getValue() + "的"+ nlu.getSlots()[0].getValue() + "啦");
-                payload.setMusic(responseEntity.getBody());
-                chetResponse.setPayload(payload);
-            } else {
-                header.setCode(2);
-                header.setMessage("你想听，我太高兴了");
-            }
+			chetResponse.setHeader(header);
             chetResponse.setNlu(nlu);
         } else {
             // 如果不是音乐请求闲聊接口
             try {
                 responseChetEntity = restTemplate.getForEntity("https://api.tianapi.com/txapi/robot/?key=9d45fb6c42449577890a9606f1cb2168&question=" + query, ChetBack.class);
+				if (responseChetEntity.getBody().getCode().equals(200)) {
+					header.setSkillId(0);
+					header.setSkillName("chat");
+					payload.setText(responseChetEntity.getBody().getNewslist()[0].getReply()
+							.replace("{robotname}", "小T")
+							.replace("{appellation}", "大白熊"));
+					chetResponse.setPayload(payload);
+					chetResponse.setNlu(nlu);
+				}
             } catch (Exception e) {
                 header.setCode(3);
                 header.setMessage("闲聊正忙，请稍后再试");
             }
-            if (responseChetEntity.getBody().getCode().equals(200)) {
-                header.setSkillId(0);
-                header.setSkillName("chat");
-                chetResponse.setHeader(header);
-                payload.setText(responseChetEntity.getBody().getNewslist()[0].getReply()
-                        .replace("{robotname}", "小T")
-                        .replace("{appellation}", "大白熊"));
-                chetResponse.setPayload(payload);
-                chetResponse.setNlu(nlu);
-            }
-        }
 
+        }
+		chetResponse.setHeader(header);
         return chetResponse;
     }
 
