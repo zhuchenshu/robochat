@@ -24,6 +24,9 @@ public class Song {
      */
     private Album al;
 
+    /**
+     * 演唱者列表
+     */
     private List<Artist> ar;
 
     public List<Artist> getAr() {
