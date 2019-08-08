@@ -1,11 +1,14 @@
 package com.robot.chat.service;
 
+import com.robot.chat.dto.Data;
 import com.robot.chat.dto.Music;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Optional;
 
 @Service
 public class RequestServiceImpl implements RequestService {
@@ -42,7 +45,6 @@ public class RequestServiceImpl implements RequestService {
                 music.setCode(452);
             }
             else{
-                music.getData().getSongs().get(0).setFirstAr();
                 music.setPlayUrl(music.getData().getSongs().get(0).getId());
                 System.out.println(music);
             }
