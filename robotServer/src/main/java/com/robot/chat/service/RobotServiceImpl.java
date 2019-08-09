@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -24,10 +23,8 @@ public class RobotServiceImpl implements RobotService {
     private RestTemplate restTemplate;
     @Value(value = "${robot.skillUrl}")
     private String skillUrl;
-    @Value(value = "${robot.robotName}")
-    private String robotName;
-    @Value(value = "${robot.appellation}")
-    private String appellation;
+    private String robotName = "小T";
+    private String appellation = "大白熊";
     @Autowired
     private MusicSkillDataInit musicSkillDataInit;
 
