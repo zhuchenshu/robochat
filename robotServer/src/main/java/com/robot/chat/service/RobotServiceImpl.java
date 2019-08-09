@@ -133,66 +133,85 @@ public class RobotServiceImpl implements RobotService {
      * @return 语言理解信息
      */
     private Nlu analysisQuery(String words) {
-        int jud = 0;//找到匹配字符串与否的标志
+		//找到匹配字符串与否的标志
+        int match = 0;
         int j = 0;
-        String temp = null;//初始化临时字符串
-        String intent_str = "chat";   //初始化意图
-        String info_match[] = new String[3];   //存储意图、歌名与人名
+		//初始化临时字符串
+        String temp = null;
+		//初始化意图
+        String intent_str = "chat";  
+		//存储域、歌名与人名
+        String info_match[] = new String[3];   
         info_match[0] = "chat";
 
         String file_music = "music";
         String file_person = "person";
         String file_intent = "intent";
 
-        Nlu nlu = new Nlu();        //实例化Nlu对象
-        Slots term[] = new Slots[2];    //创建词槽数组
-        term[0] = new Slots();           //实例化每个词槽对象
+        //实例化Nlu对象
+        Nlu nlu = new Nlu();    
+		//创建词槽数组
+        Slots term[] = new Slots[2]; 
+		//实例化每个词槽对象
+        term[0] = new Slots();           
         term[1] = new Slots();
         for (; words.length() > 0; ) {
             for (int i = 0; i < words.length(); i++) {
-                temp = words.substring(i); //截取字符串，得到最后一个字符
+				//截取字符串
+                temp = words.substring(i); 
                 if (info_match[2] == null && hashMap_find(temp, file_music)) {
                     //与歌名库匹配
-                    info_match[2] = temp;   //给歌名赋值
-                    jud = 1;
-                    int number = temp.length();    //判断匹配字符串长度
-                    words = words.substring(0, words.length() - number);  //截去已匹配字符串
-                    term[0].setName("MusicName");        //nlu词槽对象的赋值
+					//给歌名赋值
+                    info_match[2] = temp;   
+                    match = 1;
+					//判断可匹配字符串长度
+                    int number = temp.length();    
+					//截去已匹配字符
+                    words = words.substring(0, words.length() - number);  
+					//nlu词槽对象的赋值
+                    term[0].setName("MusicName");        
                     term[0].setValue(info_match[2]);
 
                 } else if (info_match[1] == null && hashMap_find(temp, file_person)) {
                     //与人名库匹配
                     info_match[1] = temp;
-                    jud = 1;
+                    match = 1;
                     int number = temp.length();
                     words = words.substring(0, words.length() - number);
-                    term[1].setName("Person");     //nlu词槽对象的赋值
+					//nlu词槽对象的赋值
+                    term[1].setName("Person");     
                     term[1].setValue(info_match[1]);
                 } else if (info_match[0] == "chat" && hashMap_find(temp, file_intent)) {
                     //与意图库匹配
-                    info_match[0] = "music"; //nlu域属性赋值
-                    intent_str = "music.search";  //nlu意图属性赋值
-                    jud = 1;
+					//nlu域属性赋值
+                    info_match[0] = "music"; 
+					//nlu意图属性赋值
+                    intent_str = "music.search";  
+                    match = 1;
                     int number = temp.length();
                     words = words.substring(0, words.length() - number);
                 }
             }
-            //当前字符串最后一个字符，与前面字符串中字符的结合，无法匹配到库中信息
-            //如：“我想听薛之谦的丑八怪”：
-            //“怪”
-            //“八怪”
-            //“丑八怪”....
-            if (jud == 0) {
-                words = words.substring(0, words.length() - 1);//截掉最后一个元素继续循环。
+			//当前一轮无法匹配时
+            if (match == 0) {
+				//截掉最后一个元素继续循环。
+                words = words.substring(0, words.length() - 1);
             }
-            jud = 0;
+            match = 0;
             j++;
         }
-        //info_match[1]!=null&&info_match[2]!=null,若出现歌名，意图定为听音乐
+        //当歌名和歌手名同时出现时，意图定为听音乐
         if (info_match[2] != null && info_match[1] != null) {
             info_match[0] = "music";
             intent_str = "music.search";
         }
+		//当域为“chat”,即闲聊时Slots置空
+		if(info_match[0] == "chat"){
+			term[0].setName(null);
+			term[0].setValue(null);
+			term[1].setName(null);
+			term[1].setValue(null);
+		}
 
         //nlu对象赋值
         nlu.setDomain(info_match[0]);
