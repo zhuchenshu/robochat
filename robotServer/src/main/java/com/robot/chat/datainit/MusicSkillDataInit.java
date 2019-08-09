@@ -33,18 +33,22 @@ public class MusicSkillDataInit implements ApplicationListener<ContextRefreshedE
         HashMap<String, String> music_map = new HashMap<>();
         FileInputStream fis = null;
         InputStreamReader isr = null;
-        BufferedReader br = null; // 用于包装InputStreamReader,提高处理性能。因为BufferedReader有缓冲的，而InputStreamReader没有。
+        BufferedReader br = null; 
+		// 用于包装InputStreamReader,提高处理性能。因为BufferedReader有缓冲的，而InputStreamReader没有。
         try {
             String str = "";
             File file = ResourceUtils.getFile(path);
-            fis = new FileInputStream(file);// FileInputStream
+            fis = new FileInputStream(file);
 
             // 从文件系统中的某个文件中获取字节
-            isr = new InputStreamReader(fis, "UTF-8");// InputStreamReader 是字节流通向字符流的桥梁,
-            br = new BufferedReader(isr);// 从字符输入流中读取文件中的内容,封装了一个new InputStreamReader的对象
+            isr = new InputStreamReader(fis, "UTF-8");
+			// InputStreamReader 是字节流通向字符流的桥梁,
+            br = new BufferedReader(isr);
+			// 从字符输入流中读取文件中的内容,封装了一个new InputStreamReader的对象
 
             while ((str = br.readLine()) != null) {
-                music_map.put(str.trim(), "1");// 存放键值对
+                music_map.put(str.trim(), "1");
+				// 存放键值对
             }
 
         } catch (FileNotFoundException e) {
