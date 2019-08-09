@@ -37,38 +37,36 @@ public class MusicRequest {
     }
 
     /**
-     * @description 返回词槽中的歌手名和歌名
      * @param
      * @return String[0]歌手名，String[1]歌名
+     * @description 返回词槽中的歌手名和歌名
      */
 
-    public String[] getSlot(){
+    public String[] getSlot() {
         String[] info = new String[2];
         List<Slot> slotList = this.getNlu().getSlots();
-        //人名、歌名都有
-        if(slotList.size() == 2) {
-            if ((slotList.get(0).getName()).equals("Person")) {
-                info[0] = slotList.get(0).getValue();
-                info[1] = slotList.get(1).getValue();
-                return info;
-            } else if ((slotList.get(0).getName()).equals("MusicName")) {
-                info[1] = slotList.get(0).getValue();
-                info[0] = slotList.get(1).getValue();
-                return info;
-            }
+
+        /**
+         * 词槽中歌名，在第一个
+         */
+        String firstKeyName = slotList.get(0).getName();
+        /**
+         * 词槽中歌手名
+         */
+        String secondKeyName = slotList.get(1).getName();
+
+        if (firstKeyName != null) {
+            info[1] = slotList.get(0).getValue();
+        } else {
+            firstKeyName = "Person";
+            info[1] = "null";
         }
-        //只有人名或者歌名
-        else if(slotList.size() == 1)
-        {
-            if ((slotList.get(0).getName()).equals("Person")) {
-                info[0] = slotList.get(0).getValue();
-                info[1] = " ";
-                return info;
-            } else if ((slotList.get(0).getName()).equals("MusicName")) {
-                info[1] = slotList.get(0).getValue();
-                info[0] = " ";
-                return info;
-            }
+
+        if (secondKeyName != null) {
+            info[0] = slotList.get(1).getValue();
+        } else {
+            secondKeyName = "MusicName";
+            info[0] = "null";
         }
         return info;
     }
