@@ -33,19 +33,19 @@ public class RobotServiceImpl implements RobotService {
      */
     @Override
     public ChatResponse getResponse(String query) {
-        ChatResponse chetResponse;
+        ChatResponse chatResponse;
 
         // 处理对话，输出nlu
         Nlu nlu = analysisQuery(query);
 
         if (nlu.getDomain() != null && nlu.getDomain().equals(Nlu.MUSIC)) {
 			// 如果是音乐请求技能接口
-        	chetResponse = this.getSkillResponse(query, nlu);
+        	chatResponse = this.getSkillResponse(query, nlu);
         } else {
             // 如果不是音乐请求闲聊接口
-            chetResponse = this.getChatResponse(query, nlu);
+            chatResponse = this.getChatResponse(query, nlu);
         }
-        return chetResponse;
+        return chatResponse;
     }
 
 	/**
@@ -55,7 +55,7 @@ public class RobotServiceImpl implements RobotService {
 	 * @return 接口回复对象
 	 */
 	public ChatResponse getSkillResponse(String query, Nlu nlu) {
-		ChatResponse chetResponse = new ChatResponse();
+		ChatResponse chatResponse = new ChatResponse();
 		Header header = new Header();
 		Payload payload = new Payload();
 		SkillPostBody skillPostBody = new SkillPostBody();
@@ -74,7 +74,7 @@ public class RobotServiceImpl implements RobotService {
 				payload.setMusic(skillMusic);
 				payload.getMusic().setMusicName(nlu.getSlots()[0].getValue());
 				payload.getMusic().setSinger(singer);
-				chetResponse.setPayload(payload);
+				chatResponse.setPayload(payload);
 			} else {
 				header.setCode(2);
 				header.setMessage("你想听，我太高兴了");
@@ -83,9 +83,9 @@ public class RobotServiceImpl implements RobotService {
 			header.setCode(1);
 			header.setMessage("音乐正忙，请稍后再试");
 		}
-		chetResponse.setHeader(header);
-		chetResponse.setNlu(nlu);
-		return chetResponse;
+		chatResponse.setHeader(header);
+		chatResponse.setNlu(nlu);
+		return chatResponse;
 	}
 
 	/**
