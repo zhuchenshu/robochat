@@ -70,11 +70,18 @@ public class RobotServiceImpl implements RobotService {
         header.setSkillId(1);
         header.setSkillName("music");
         try {
-            responseEntity = restTemplate.postForEntity("http://" + this.skillUrl + "/music", skillPostBody, SkillMusic.class);
+            responseEntity = restTemplate.postForEntity("http://" + "127.0.0.1:8082" + "/music", skillPostBody, SkillMusic.class);
             SkillMusic skillMusic = responseEntity.getBody();
             if (skillMusic.getCode().equals(200)) {
                 String singer = skillMusic.getData().getSongs().get(0).getAr().get(0).getName();
-                payload.setText("主人，我已经为找到" + singer + "的" + nlu.getSlots()[0].getValue() + "啦");
+                String sing = skillMusic.getData().getSongs().get(0).getName();
+                if (sing != null && singer != null) {
+                    payload.setText("主人，我已经为你找到" + singer + "的" + sing + "啦");
+                } else if (sing != null){
+                    payload.setText("主人，我已经为你找到" + singer + "的歌啦");
+                } else {
+                    payload.setText("主人，我已经为你找到" + sing + "啦");
+                }
                 payload.setMusic(skillMusic);
                 payload.getMusic().setMusicName(nlu.getSlots()[0].getValue());
                 payload.getMusic().setSinger(singer);
@@ -209,6 +216,10 @@ public class RobotServiceImpl implements RobotService {
 			term[1].setName(null);
 			term[1].setValue(null);
 		}
+		if(info_match[1] == null && info_match[2] == null){
+		    info_match[0] = "chat";
+		    intent_str = "chat";
+        }
 
         //nlu对象赋值
         nlu.setDomain(info_match[0]);
