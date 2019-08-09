@@ -33,6 +33,13 @@ public class RequestServiceImpl implements RequestService {
          */
         Music music = new Music();
 
+        //处理为null的键值
+        if(singer.equals("null")) {
+            singer = "";
+        }else if( songName.equals("null")){
+            songName = "";
+        }
+
         //调用第三方接口
         ResponseEntity<Music> responseEntity = restTemplate.getForEntity(askMusicUrl, Music.class,songName,singer);
         System.out.println(responseEntity);
