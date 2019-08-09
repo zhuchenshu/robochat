@@ -1,6 +1,8 @@
 package com.robot.chat.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.robot.chat.ChatApplicationTests;
+import com.robot.chat.dto.Query;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,13 +24,12 @@ public class RobotControllerTest extends ChatApplicationTests {
     @Test
     public void chat() throws Exception{
         String baseUrl = "/chat";
+        Query query = new Query();
+        query.setQuery("我要听刘德华的笨小孩");
 
         logger.info("测试闲聊接口");
         mockMvc.perform(post(baseUrl)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content("{\n" +
-                        "  \"query\":\"我要听刘德华的笨小孩\"\n" +
-                        "}"))
-                .andExpect(status().isOk());
+                .content(JSON.toJSONString(query))).andExpect(status().isOk());
     }
 }
